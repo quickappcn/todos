@@ -1,0 +1,72 @@
+<!-- 组件篇：引入div、text、input -->
+<template>
+  <div class="page">
+    <div class="page-header">
+      <text>todos</text>
+      <div class="new-todo">
+        <input class="input-text" type="text" placeholder="What needs to be done?"/>
+        <input type="button" value="Add"/>
+      </div>
+    </div>
+    <div class="page-main">
+      <div class="todo">
+        <div class="btn-check"></div>
+        <text class="text">eat apple</text>
+        <text>X</text>
+      </div>
+      <div class="todo">
+        <div class="btn-check"></div>
+        <text class="text">buy banana</text>
+        <text>X</text>
+      </div>
+      <div class="todo">
+        <div class="btn-check btn-checked"></div>
+        <text class="text">cut pear</text>
+        <text>X</text>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style>
+  /* 公用样式 */
+  .btn-check {
+    width: 50px;
+    height: 50px;
+    margin: 25px;
+    border-radius: 25px;
+    border-width: 2px;
+    border-color: #e5e5e5;
+  }
+
+  .btn-checked {
+    border-width: 0px;
+    background-image: url('/common/checked.png');
+  }
+
+  /* 页面样式 */
+  .page, .page-header, .page-main {
+    flex-direction: column;
+  }
+
+  .page-header > text {
+    line-height: 200px;
+    font-size: 100px;
+    text-align: center;
+  }
+
+  .new-todo {
+    height: 100px;
+    border: 2px solid #ededed;
+  }
+
+  .input-text, .todo > .text {
+    flex-grow: 1;
+  }
+
+  .todo {
+    height: 100px;
+    border-bottom-width: 1px;
+    border-bottom-color: #ededed;
+  }
+</style>

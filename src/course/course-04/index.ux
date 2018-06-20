@@ -1,0 +1,135 @@
+<!-- 脚本篇：引入事件，增加交互 -->
+<template>
+  <div class="page">
+    <div class="page-header">
+      <text>todos</text>
+      <div class="new-todo {{dynamicClassName}}">
+        <input class="input-text" type="text" placeholder="What needs to be done?" value="{{newItemName}}"
+               onchange="updateValue" onfocus="updateClass"/>
+        <input class="btn-add" type="button" value="Add" onclick="addItem"/>
+      </div>
+    </div>
+    <div class="page-main">
+      <div class="todo" for="{{listData}}">
+        <div class="btn-check {{$item.completed ? 'btn-checked' : ''}}" onclick="modifyItemStatus($idx)"></div>
+        <text>{{$item.value}}</text>
+        <text class="btn-del" onlongpress="deleteItem($idx)">X</text>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="less">
+  /* 公用样式 */
+  .btn-check {
+    width: 50px;
+    height: 50px;
+    margin: 25px;
+    border-radius: 25px;
+    border-width: 2px;
+    border-color: #e5e5e5;
+  }
+
+  .btn-checked {
+    border-width: 0px;
+    background-image: url('/common/checked.png');
+  }
+
+  /* 页面样式 */
+  .page {
+    flex-direction: column;
+  }
+
+  .page-header {
+    flex-direction: column;
+    > text {
+      line-height: 200px;
+      font-size: 100px;
+      color: #ead7d7;
+      text-align: center;
+    }
+    .new-todo {
+      height: 100px;
+      border: 2px solid #ededed;
+      background-color: #ffffff;
+      .input-text {
+        flex-grow: 1;
+        padding: 0 30px;
+      }
+      .btn-add {
+        flex-shrink: 0;
+        width: 150px;
+        font-weight: normal;
+        color: #FFFFFF;
+        background-color: #ead7d7;
+      }
+    }
+    .input-focus {
+      border-color: #ead7d7;
+    }
+  }
+
+  .page-main {
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+    .todo {
+      height: 100px;
+      border-bottom-width: 1px;
+      border-bottom-color: #ededed;
+      > text {
+        flex-grow: 1;
+        font-size: 35px;
+        color: #666666;
+      }
+      .btn-del {
+        flex-grow: 0;
+        width: 80px;
+        font-size: 40px;
+        color: #f78f8f;
+        background-color: #f5f5f5;
+        text-align: center;
+      }
+    }
+  }
+</style>
+
+<script>
+  export default {
+    private: {
+      // 输入的记录内容
+      newItemName: '',
+      // 展示列表
+      listData: [],
+      // 动态样式名
+      dynamicClassName: ''
+    },
+    updateValue (evt) {
+      this.newItemName = evt.value
+    },
+    updateClass () {
+      this.dynamicClassName = 'input-focus'
+    },
+    /**
+     * 增加一条记录
+     */
+    addItem () {
+      if (this.newItemName !== '') {
+        this.listData.push({ value: this.newItemName, completed: false })
+        this.newItemName = ''
+      }
+    },
+    /**
+     * 修改状态
+     */
+    modifyItemStatus (idx) {
+      this.listData[idx].completed = !this.listData[idx].completed
+    },
+    /**
+     * 删除一条记录
+     */
+    deleteItem (idx) {
+      this.listData.splice(idx, 1)
+    }
+  }
+</script>

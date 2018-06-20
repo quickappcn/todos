@@ -1,0 +1,26 @@
+<template>
+  <div class="page">
+    <a href="/course/course-01">01.组件篇</a>
+    <a href="/course/course-02">02.样式篇</a>
+    <a href="/course/course-03">03.逻辑篇</a>
+    <a href="/course/course-04">04.脚本篇</a>
+    <a href="/course/course-05">05.接口篇</a>
+    <a href="/course/course-06">06.自定义组件篇</a>
+    <a href="/course/course-07">07.组件优化篇</a>
+  </div>
+</template>
+
+<style>
+  .page {
+    flex-direction: column;
+    padding: 30px;
+  }
+
+  a {
+    height: 120px;
+    font-size: 40px;
+    color: #f78f8f;
+    border-bottom-width: 1px;
+    border-bottom-color: #ead7d7;
+  }
+</style>

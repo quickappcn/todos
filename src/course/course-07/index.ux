@@ -1,0 +1,110 @@
+<!-- 优化篇：引入list组件，复用同类型的list-item -->
+<import name="page-main-item" src="./page-main-item.ux"></import>
+
+<template>
+  <div class="page">
+    <div class="page-header">
+      <text>todos</text>
+      <div class="new-todo {{dynamicClassName}}">
+        <input class="input-text" type="text" placeholder="What needs to be done?" value="{{newItemName}}"
+               onchange="updateValue" onfocus="updateClass"/>
+        <input class="btn-add" type="button" value="Add" onclick="addItem"/>
+      </div>
+    </div>
+    <list class="page-main">
+      <list-item for="{{listData}}" type="item">
+        <page-main-item item="{{$item}}" idx="{{$idx}}"></page-main-item>
+      </list-item>
+    </list>
+  </div>
+</template>
+
+<style lang="less">
+  .page {
+    flex-direction: column;
+  }
+
+  .page-header {
+    flex-direction: column;
+    > text {
+      line-height: 200px;
+      font-size: 100px;
+      color: #ead7d7;
+      text-align: center;
+    }
+    .new-todo {
+      height: 100px;
+      border: 2px solid #ededed;
+      background-color: #ffffff;
+      .input-text {
+        flex-grow: 1;
+        padding: 0 30px;
+      }
+      .btn-add {
+        flex-shrink: 0;
+        width: 150px;
+        font-weight: normal;
+        color: #FFFFFF;
+        background-color: #ead7d7;
+      }
+    }
+    .input-focus {
+      border-color: #ead7d7;
+    }
+  }
+
+  .page-main {
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+</style>
+
+<script>
+  import prompt from '@system.prompt'
+
+  export default {
+    private: {
+      // 输入的记录内容
+      newItemName: '',
+      // 展示列表
+      listData: [],
+      // 动态样式名
+      dynamicClassName: ''
+    },
+    onInit () {
+      // 修改状态
+      this.$on('modifyStatus', (evt) => {
+        const params = evt.detail
+        this.listData[params.idx].completed = params.checked
+      })
+      // 删除一条记录
+      this.$on('deleteItem', (evt) => {
+        this.listData.splice(evt.detail.idx, 1)
+      })
+    },
+    updateValue (evt) {
+      this.newItemName = evt.value
+    },
+    updateClass () {
+      this.dynamicClassName = 'input-focus'
+    },
+    /**
+     * 增加一条记录
+     */
+    addItem () {
+      if (this.newItemName === '') {
+        this.showHint(`Please enter what you need to do`)
+      } else {
+        this.listData.push({ value: this.newItemName, completed: false })
+        this.newItemName = ''
+      }
+    },
+    /**
+     * 信息提示
+     */
+    showHint (msg) {
+      prompt.showToast({ message: msg })
+    }
+  }
+</script>
